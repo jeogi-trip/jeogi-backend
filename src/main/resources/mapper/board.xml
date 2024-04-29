@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 Repo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.jeogi.jeogitrip.board.model.mapper.BoardMapper">
+    <select id="listBoard" resultType="Board">
+        select board_id, user_id, title, view_count, create_time, content
+        from board
+    </select>
+    <insert id="insertBoard" parameterType="Board">
+        insert into board (
+            user_id, title, view_count, create_time, content
+        ) values (
+                     #{userId}, #{title}, #{viewCount}, #{createTime}, #{content}
+                 )
+    </insert>
+    <insert id="updateBoard" parameterType="Board">
+        update board
+        set user_id = #{userId},
+            title = #{title},
+            view_count = #{viewCount},
+            create_time = #{createTime},
+            content = #{content}
+        where board_id = #{boardId}
+    </insert>
+    <insert id="deleteBoard" parameterType="int">
+        delete
+        from board
+        where board_id = #{boardId}
+    </insert>
+    <select id="getBookByNo" parameterType="int" resultType="Board">
+        select user_id, title, view_count, create_time, content
+        from book
+        where board_id = #{boardId}
+    </select>
+
+
+</mapper>
