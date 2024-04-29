@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 Repo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.jeogi.jeogitrip.user.model.mapper.UserMapper">
+
+    <select id="selectUser">
+        select user_id,email,role
+        from user;
+    </select>
+
+    <select id="selectUserDetail" parameterType="String">
+        select user_detail_id,user_id,name,phone,birth
+        from user_detail
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertUser" parameterType="User">
+        insert into User (user_id, email, role)
+        values (#{userId},#{email},#{role})
+    </insert>
+
+    <insert id="insertUserGeneral" parameterType="UserGeneral">
+        insert into user_general (user_id, password, auto)
+        values (#{userId},#{password},default)
+    </insert>
+
+    <insert id="insertUserDetail" parameterType="UserDetail">
+        insert into user_detail (user_id, name, phone, birth)
+        values (#{userId},#{name},#{phone},#{birth})
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="email != null">email = #{email},</if>
+            <if test="role != null">role = #{role},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateUserGeneral" parameterType="UserGeneral">
+        update user_general
+        <trim prefix="set" >
+            <if test="password != null">password = #{password}</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateUserDetail" parameterType="UserDetail">
+        update user_detail
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="birth != null">birth = #{birth},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserDetail" parameterType="String">
+        delete from user_detail
+        where user_id = #{userId};
+    </delete>
+
+    <delete id="deleteUserGeneral" parameterType="String">
+        delete from user_general
+        where user_id = #{userId};
+    </delete>
+
+</mapper>
