@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 Repo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.jeogi.jeogitrip.attraction.model.mapper.AttractionMapper">
+    <select id="selectAttraction" resultType="Attraction">
+        select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
+        from attraction_info
+        limit 30;
+    </select>
+
+    <select id="selectRecommendAttraction" parameterType="Search" resultType="Attraction">
+
+        select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
+        FROM (
+        SELECT content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel, ROW_NUMBER() OVER(PARTITION BY content_type_id ORDER BY RAND()) as row_num
+        FROM attraction_info
+        WHERE (6371*acos(cos(radians(#{mapxLat}))*cos(radians(latitude))*cos(radians(longitude)
+        - radians(#{mapyLon}))+sin(radians(#{mapxLat}))*sin(radians(latitude)))) &lt; 1
+        AND content_type_id IN (12,14,15,38,39)
+        ) AS ranked_attractions
+        WHERE row_num = 1
+        order by content_type_id
+
+
+    </select>
+
+
+    <select id="selectAttractionDetail" parameterType="int" resultType="AttractionDescription">
+        select content_id, homepage, overview, telname
+        from attraction_description
+        where content_id = #{contentId}
+    </select>
+
+</mapper>
