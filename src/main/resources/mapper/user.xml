@@ -16,8 +16,8 @@
     </select>
 
     <insert id="insertUser" parameterType="User">
-        insert into User (user_id, email, role)
-        values (#{userId},#{email},#{role})
+        insert into user (user_id, email, role)
+        values (#{userId},#{email},default)
     </insert>
 
     <insert id="insertUserGeneral" parameterType="UserGeneral">
