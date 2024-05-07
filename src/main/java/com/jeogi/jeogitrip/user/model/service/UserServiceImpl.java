@@ -3,6 +3,7 @@ package com.jeogi.jeogitrip.user.model.service;
 import com.jeogi.jeogitrip.user.model.User;
 import com.jeogi.jeogitrip.user.model.UserDetail;
 import com.jeogi.jeogitrip.user.model.UserGeneral;
+import com.jeogi.jeogitrip.user.model.UserRequest;
 import com.jeogi.jeogitrip.user.model.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,32 +30,65 @@ public class UserServiceImpl implements  UserService{
 
     @Transactional
     @Override
-    public int joinUser(User user, UserGeneral userGeneral, UserDetail userDetail) {
+    public int joinUser(UserRequest userRequest) {
         try {
+            User user = new User();
+            user.setUserId(userRequest.getUserId());
+            user.setEmail(userRequest.getEmail());
+
+            UserDetail userDetail = new UserDetail();
+            userDetail.setUserId(userRequest.getUserId());
+            userDetail.setName(userRequest.getName());
+            userDetail.setBirth(userRequest.getBirth());
+            userDetail.setPhone(userRequest.getPhone());
+
+            UserGeneral userGeneral = new UserGeneral();
+            userGeneral.setUserId(userRequest.getUserId());
+            userGeneral.setPassword(userRequest.getPassword());
+
             int userInserted = userMapper.insertUser(user);
             int userDetailInserted = userMapper.insertUserDetail(userDetail);
             int userGeneralInserted = userMapper.insertUserGeneral(userGeneral);
 
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return userInserted+userDetailInserted+userGeneralInserted;
         }catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new RuntimeException("회원 등록 중 오류가 발생했습니다.", e);
         }
     }
 
     @Transactional
     @Override
-    public int updateUser(User user, UserGeneral userGeneral, UserDetail userDetail) {
-        try{
-            int userUpdated = userMapper.updateUser(user);
-            int userDetailUpdated = userMapper.updateUserDetail(userDetail);
-            int userGeneralUpdated = userMapper.updateUserGeneral(userGeneral);
+    public int updateUser(UserRequest userRequest) {
 
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return userUpdated+userDetailUpdated+userGeneralUpdated;
+        try{
+            User user = new User();
+            user.setUserId(userRequest.getUserId());
+            user.setEmail(userRequest.getEmail());
+
+            UserDetail userDetail = new UserDetail();
+            userDetail.setUserId(userRequest.getUserId());
+            userDetail.setName(userRequest.getName());
+            userDetail.setBirth(userRequest.getBirth());
+            userDetail.setPhone(userRequest.getPhone());
+
+            UserGeneral userGeneral = new UserGeneral();
+            userGeneral.setUserId(userRequest.getUserId());
+            userGeneral.setPassword(userRequest.getPassword());
+
+            int userUpdatedCnt = 0;
+
+            if(user.getEmail() != null){
+                userUpdatedCnt += userMapper.updateUser(user);
+            }
+            if(userDetail.getName() != null || userDetail.getBirth() != null || userDetail.getPhone() != null){
+               userUpdatedCnt += userMapper.updateUserDetail(userDetail);
+            }
+            if(userGeneral.getPassword() != null){
+                userUpdatedCnt += userMapper.updateUserGeneral(userGeneral);
+            }
+
+            return userUpdatedCnt;
         }catch (Exception e){
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new RuntimeException("회원 정보 업데이트 중 오류 발생", e);
         }
 

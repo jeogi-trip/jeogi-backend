@@ -3,6 +3,7 @@ package com.jeogi.jeogitrip.user.controller;
 import com.jeogi.jeogitrip.user.model.User;
 import com.jeogi.jeogitrip.user.model.UserDetail;
 import com.jeogi.jeogitrip.user.model.UserGeneral;
+import com.jeogi.jeogitrip.user.model.UserRequest;
 import com.jeogi.jeogitrip.user.model.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -66,11 +67,11 @@ public class UserController {
 
     @Operation(summary = "회원 가입", description = "회원 가입한다.")
     @PostMapping("/join")
-    public ResponseEntity<?> joinUser(@RequestBody(required = true) User user,
-                                      @RequestBody(required = true) UserDetail userDetail,
-                                      @RequestBody(required = true)UserGeneral userGeneral){
+    public ResponseEntity<?> joinUser(@RequestBody(required = true) UserRequest userRequest){
+        System.out.println(1);
         try {
-            int valid = userService.joinUser(user,userGeneral,userDetail);
+
+            int valid = userService.joinUser(userRequest);
             if(valid > 0) {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
@@ -85,16 +86,13 @@ public class UserController {
 
     @Operation(summary = "회원 정보 업데이트", description = "회원 정보를 업데이트한다.")
     @PutMapping("/")
-    public ResponseEntity<?> updateUser(@RequestBody(required = true) User user,
-                                        @RequestBody(required = true) UserDetail userDetail,
-                                        @RequestBody(required = true)UserGeneral userGeneral){
+    public ResponseEntity<?> updateUser(@RequestBody(required = true) UserRequest userRequest){
         try {
-            int valid = userService.updateUser(user,userGeneral,userDetail);
+            int valid = userService.updateUser(userRequest);
             if(valid >0){
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
                 return ResponseEntity.ok("회원 업데이트 성공");
-
             }else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 수정에 실패하였습니다.");
             }
