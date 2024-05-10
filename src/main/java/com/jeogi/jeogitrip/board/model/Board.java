@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Board {
-    private int boardNo;
+    private int boardId;
     private String userId;
     private String title;
     private int viewCount;

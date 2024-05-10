@@ -11,7 +11,7 @@
         insert into board (
             user_id, title, view_count, create_time, content
         ) values (
-                     #{userId}, #{title}, #{viewCount}, #{createTime}, #{content}
+                     #{userId}, #{title}, #{viewCount}, now(), #{content}
                  )
     </insert>
     <insert id="updateBoard" parameterType="Board">
