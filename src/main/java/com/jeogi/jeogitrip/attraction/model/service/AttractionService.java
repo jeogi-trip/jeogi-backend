@@ -4,7 +4,7 @@ package com.jeogi.jeogitrip.attraction.model.service;
 import com.jeogi.jeogitrip.attraction.model.Attraction;
 import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
 import com.jeogi.jeogitrip.attraction.model.Gugun;
-import com.jeogi.jeogitrip.attraction.model.Search;
+import com.jeogi.jeogitrip.attraction.model.SearchRecommend;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ public interface AttractionService {
     List<Gugun> listGugun(int sidoCode);
     List<Attraction> listAttraction();
 
-    List<Attraction> listRecommendAttraction(Search search);
+    List<Attraction> listRecommendAttraction(SearchRecommend searchRecommend);
 
     AttractionDescription getAttractionDetail(int contentId);
 }

@@ -3,7 +3,7 @@ package com.jeogi.jeogitrip.attraction.model.service;
 import com.jeogi.jeogitrip.attraction.model.Attraction;
 import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
 import com.jeogi.jeogitrip.attraction.model.Gugun;
-import com.jeogi.jeogitrip.attraction.model.Search;
+import com.jeogi.jeogitrip.attraction.model.SearchRecommend;
 import com.jeogi.jeogitrip.attraction.model.mapper.AttractionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,8 +33,8 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
-    public List<Attraction> listRecommendAttraction(Search search) {
-        return attractionMapper.selectRecommendAttraction(search);
+    public List<Attraction> listRecommendAttraction(SearchRecommend searchRecommend) {
+        return attractionMapper.selectRecommendAttraction(searchRecommend);
     }
 
     @Override

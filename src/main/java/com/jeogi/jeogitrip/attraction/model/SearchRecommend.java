@@ -7,7 +7,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class Search {
+public class SearchRecommend {
     private double mapxLat;
     private double mapyLon;
     private int range;

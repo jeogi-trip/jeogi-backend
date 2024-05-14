@@ -3,7 +3,7 @@ package com.jeogi.jeogitrip.attraction.model.mapper;
 import com.jeogi.jeogitrip.attraction.model.Attraction;
 import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
 import com.jeogi.jeogitrip.attraction.model.Gugun;
-import com.jeogi.jeogitrip.attraction.model.Search;
+import com.jeogi.jeogitrip.attraction.model.SearchRecommend;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface AttractionMapper {
 
     List<Attraction> selectAttraction();
 
-    List<Attraction> selectRecommendAttraction(Search search);
+    List<Attraction> selectRecommendAttraction(SearchRecommend searchRecommend);
 
     AttractionDescription selectAttractionDetail(int contentId);
 }

@@ -3,7 +3,7 @@ package com.jeogi.jeogitrip.attraction.controller;
 import com.jeogi.jeogitrip.attraction.model.Attraction;
 import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
 import com.jeogi.jeogitrip.attraction.model.Gugun;
-import com.jeogi.jeogitrip.attraction.model.Search;
+import com.jeogi.jeogitrip.attraction.model.SearchRecommend;
 import com.jeogi.jeogitrip.attraction.model.service.AttractionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,11 +14,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -87,9 +85,9 @@ public class AttractionController {
 
     @Operation(summary = "추천 관광지", description = "추천 관광지를 보여준다.")
     @GetMapping("/recommend")
-    public ResponseEntity<?> listRecommendAttraction(@Parameter(required = true) Search search){
+    public ResponseEntity<?> listRecommendAttraction(@Parameter(required = true) SearchRecommend searchRecommend){
         try {
-            List<Attraction> list = attractionService.listRecommendAttraction(search);
+            List<Attraction> list = attractionService.listRecommendAttraction(searchRecommend);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
             return ResponseEntity.ok().headers(headers).body(list);
