@@ -9,6 +9,11 @@
         from sido;
     </select>
 
+    <select id="selectGugun" resultType="Gugun">
+        select gugun_code, gugun_name, sido_code
+        from gugun
+        where sido_code = #{sidoCode};
+    </select>
 
     <select id="selectAttraction" resultType="Attraction">
         select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel

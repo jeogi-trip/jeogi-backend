@@ -2,6 +2,7 @@ package com.jeogi.jeogitrip.attraction.model.service;
 
 import com.jeogi.jeogitrip.attraction.model.Attraction;
 import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
+import com.jeogi.jeogitrip.attraction.model.Gugun;
 import com.jeogi.jeogitrip.attraction.model.Search;
 import com.jeogi.jeogitrip.attraction.model.mapper.AttractionMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,11 @@ public class AttractionServiceImpl implements AttractionService{
     @Override
     public List<Map<Integer, String>> listSido() {
         return attractionMapper.selectSido();
+    }
+
+    @Override
+    public List<Gugun> listGugun(int sidoCode) {
+        return attractionMapper.selectGugun(sidoCode);
     }
 
     @Override

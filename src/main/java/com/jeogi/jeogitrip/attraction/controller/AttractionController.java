@@ -2,6 +2,7 @@ package com.jeogi.jeogitrip.attraction.controller;
 
 import com.jeogi.jeogitrip.attraction.model.Attraction;
 import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
+import com.jeogi.jeogitrip.attraction.model.Gugun;
 import com.jeogi.jeogitrip.attraction.model.Search;
 import com.jeogi.jeogitrip.attraction.model.service.AttractionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,6 +48,25 @@ public class AttractionController {
             return exceptionHandling(e);
         }
     }
+
+    @Operation(summary = "구군 목록", description = "시도에 따른 구군 목록")
+    @GetMapping("/sido/{sidoCode}")
+    public ResponseEntity<?> listGugun(@Parameter(required = true) @PathVariable int sidoCode){
+        try{
+            List<Gugun> list = attractionService.listGugun(sidoCode);
+            if (list != null && !list.isEmpty()) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+                return ResponseEntity.ok().headers(headers).body(list);
+            } else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
+
+
 
     @Operation(summary = "관광지 목록", description = " 현재 위치에서 n키로 내의 관광지 목록")
     @GetMapping("/list")
