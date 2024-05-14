@@ -6,6 +6,7 @@
     <select id="listBoard" resultType="Board">
         select board_id, user_id, title, view_count, create_time, content
         from board
+        order by  board_id desc ;
     </select>
     <insert id="insertBoard" parameterType="Board">
         insert into board (
@@ -19,7 +20,6 @@
         set user_id = #{userId},
             title = #{title},
             view_count = #{viewCount},
-            create_time = #{createTime},
             content = #{content}
         where board_id = #{boardId}
     </insert>

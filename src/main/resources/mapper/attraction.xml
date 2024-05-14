@@ -3,6 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- name space는 Repo의 fully qualified name으로 설정한다. -->
 <mapper namespace="com.jeogi.jeogitrip.attraction.model.mapper.AttractionMapper">
+
+    <select id="selectSido" resultType="Map">
+        select *
+        from sido;
+    </select>
+
+
     <select id="selectAttraction" resultType="Attraction">
         select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
         from attraction_info

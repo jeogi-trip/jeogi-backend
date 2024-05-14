@@ -6,9 +6,12 @@ import com.jeogi.jeogitrip.attraction.model.Search;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AttractionMapper {
+
+    List<Map<Integer, String>> selectSido();
 
     List<Attraction> selectAttraction();
 

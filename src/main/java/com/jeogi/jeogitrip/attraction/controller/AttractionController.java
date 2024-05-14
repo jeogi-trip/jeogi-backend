@@ -17,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,8 +27,26 @@ import java.util.List;
 @CrossOrigin("*")
 @Tag(name="Attraction",description = "관광지 리스트와, 추천 여행지를 나타냅니다.")
 @RequestMapping("/api/attraction")
-public class AtttractionController {
+public class AttractionController {
     private final AttractionService attractionService;
+
+    @Operation(summary = "시도 목록", description = "전체 시도 목록")
+    @GetMapping("/sido")
+    public ResponseEntity<?> listSido(){
+        try {
+            List<Map<Integer, String>> list = attractionService.listSido();
+            if (list != null && !list.isEmpty()) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+                return ResponseEntity.ok().headers(headers).body(list);
+            } else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+            }
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
 
     @Operation(summary = "관광지 목록", description = " 현재 위치에서 n키로 내의 관광지 목록")
     @GetMapping("/list")
