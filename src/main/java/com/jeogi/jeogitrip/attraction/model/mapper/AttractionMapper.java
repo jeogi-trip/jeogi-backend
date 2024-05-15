@@ -15,7 +15,7 @@ public interface AttractionMapper {
 
     List<Attraction> selectAttractionBySearch(SearchAttraction searchAttraction);
 
-    List<Attraction> selectAttraction();
+    List<Attraction> selectAttractionByKeyword(SearchRequest searchRequest);
 
     List<Attraction> selectRecommendAttraction(SearchRecommend searchRecommend);
 

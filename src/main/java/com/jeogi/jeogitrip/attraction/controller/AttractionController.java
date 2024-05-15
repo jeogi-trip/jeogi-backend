@@ -84,11 +84,14 @@ public class AttractionController {
 
 
 
-    @Operation(summary = "관광지 목록", description = " 현재 위치에서 n키로 내의 관광지 목록")
+    @Operation(summary = "관광지 검색", description = " 입력한 키워드의 관광지 목록, 타입 ID도 지정한다면 해당 타입 관광지만 조회")
     @GetMapping("/list")
-    public ResponseEntity<?> listAttraction(){
+    public ResponseEntity<?> getAttractionByKeyword(@Parameter(description = "검색 키워드", required = true) @RequestParam String keyword,
+                                                    @Parameter(description = "콘텐츠 타입 ID") @RequestParam(required = false, defaultValue = "0") Integer contentTypeId){
+
         try {
-            List<Attraction> list = attractionService.listAttraction();
+            SearchRequest searchRequest = new SearchRequest(keyword,contentTypeId);
+            List<Attraction> list = attractionService.listAttractionByKeyword(searchRequest);
             if(list!= null && !list.isEmpty()){
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));

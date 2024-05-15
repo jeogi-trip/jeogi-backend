@@ -22,10 +22,17 @@
         limit #{maxItems};
     </select>
 
-    <select id="selectAttraction" resultType="Attraction">
+    <select id="selectAttractionByKeyword" parameterType="SearchRequest" resultType="Attraction">
         select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
-        from attraction_info
-        limit 30;
+        FROM attraction_info
+        <where>
+            <if test="keyword != null">
+                AND title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="contentTypeId != 0">
+                AND content_type_id = #{contentTypeId}
+            </if>
+        </where>
     </select>
 
     <select id="selectRecommendAttraction" parameterType="SearchRecommend" resultType="Attraction">

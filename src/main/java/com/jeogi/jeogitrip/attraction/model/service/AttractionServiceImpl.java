@@ -30,8 +30,8 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
-    public List<Attraction> listAttraction() {
-        return attractionMapper.selectAttraction();
+    public List<Attraction> listAttractionByKeyword(SearchRequest searchRequest) {
+        return attractionMapper.selectAttractionByKeyword(searchRequest);
     }
 
     @Override

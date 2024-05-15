@@ -13,7 +13,7 @@ public interface AttractionService {
     List<Gugun> listGugun(int sidoCode);
 
     List<Attraction> getAttractionBySearch(SearchAttraction searchAttraction);
-    List<Attraction> listAttraction();
+    List<Attraction> listAttractionByKeyword(SearchRequest searchRequest);
 
     List<Attraction> listRecommendAttraction(SearchRecommend searchRecommend);
 
