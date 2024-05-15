@@ -15,13 +15,20 @@
         where sido_code = #{sidoCode};
     </select>
 
+    <select id="selectAttractionBySearch" parameterType="SearchAttraction" resultType="Attraction">
+        select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
+        from attraction_info
+        where sido_code = #{sidoCode} and gugun_code = #{gugunCode} and content_type_id = #{contentTypeId}
+        limit #{maxItems};
+    </select>
+
     <select id="selectAttraction" resultType="Attraction">
         select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
         from attraction_info
         limit 30;
     </select>
 
-    <select id="selectRecommendAttraction" parameterType="Search" resultType="Attraction">
+    <select id="selectRecommendAttraction" parameterType="SearchRecommend" resultType="Attraction">
 
         select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
         FROM (

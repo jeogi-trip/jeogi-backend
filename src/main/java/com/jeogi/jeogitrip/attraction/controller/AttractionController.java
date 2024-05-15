@@ -1,9 +1,6 @@
 package com.jeogi.jeogitrip.attraction.controller;
 
-import com.jeogi.jeogitrip.attraction.model.Attraction;
-import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
-import com.jeogi.jeogitrip.attraction.model.Gugun;
-import com.jeogi.jeogitrip.attraction.model.SearchRecommend;
+import com.jeogi.jeogitrip.attraction.model.*;
 import com.jeogi.jeogitrip.attraction.model.service.AttractionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -49,7 +46,7 @@ public class AttractionController {
 
     @Operation(summary = "구군 목록", description = "시도에 따른 구군 목록")
     @GetMapping("/sido/{sidoCode}")
-    public ResponseEntity<?> listGugun(@Parameter(required = true) @PathVariable int sidoCode){
+    public ResponseEntity<?> getGugunBySido(@Parameter(required = true) @PathVariable int sidoCode){
         try{
             List<Gugun> list = attractionService.listGugun(sidoCode);
             if (list != null && !list.isEmpty()) {
@@ -62,6 +59,24 @@ public class AttractionController {
         }catch (Exception e){
             return exceptionHandling(e);
         }
+    }
+
+    @Operation(summary = "시도, 구군, 타입에 따른 관광지 목록", description = "사용자로부터 선택된 시도, 구군, 타입 코드에 맞는 관광지 목록")
+    @GetMapping("/list/search")
+    public ResponseEntity<?> getAttractionBySearch(@Parameter(required = true)SearchAttraction searchAttraction){
+        try{
+            List<Attraction> list = attractionService.getAttractionBySearch(searchAttraction);
+            if(list!= null && !list.isEmpty()){
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+                return ResponseEntity.ok().headers(headers).body(list);
+            }else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+
     }
 
 

@@ -1,9 +1,6 @@
 package com.jeogi.jeogitrip.attraction.model.mapper;
 
-import com.jeogi.jeogitrip.attraction.model.Attraction;
-import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
-import com.jeogi.jeogitrip.attraction.model.Gugun;
-import com.jeogi.jeogitrip.attraction.model.SearchRecommend;
+import com.jeogi.jeogitrip.attraction.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,6 +12,8 @@ public interface AttractionMapper {
     List<Map<Integer, String>> selectSido();
 
     List<Gugun> selectGugun(int sidoCode);
+
+    List<Attraction> selectAttractionBySearch(SearchAttraction searchAttraction);
 
     List<Attraction> selectAttraction();
 

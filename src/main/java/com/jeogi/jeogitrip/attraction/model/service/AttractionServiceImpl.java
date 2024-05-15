@@ -1,9 +1,6 @@
 package com.jeogi.jeogitrip.attraction.model.service;
 
-import com.jeogi.jeogitrip.attraction.model.Attraction;
-import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
-import com.jeogi.jeogitrip.attraction.model.Gugun;
-import com.jeogi.jeogitrip.attraction.model.SearchRecommend;
+import com.jeogi.jeogitrip.attraction.model.*;
 import com.jeogi.jeogitrip.attraction.model.mapper.AttractionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +22,11 @@ public class AttractionServiceImpl implements AttractionService{
     @Override
     public List<Gugun> listGugun(int sidoCode) {
         return attractionMapper.selectGugun(sidoCode);
+    }
+
+    @Override
+    public List<Attraction> getAttractionBySearch(SearchAttraction searchAttraction) {
+        return attractionMapper.selectAttractionBySearch(searchAttraction);
     }
 
     @Override
