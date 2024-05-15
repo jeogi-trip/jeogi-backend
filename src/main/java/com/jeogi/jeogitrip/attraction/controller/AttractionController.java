@@ -63,8 +63,12 @@ public class AttractionController {
 
     @Operation(summary = "시도, 구군, 타입에 따른 관광지 목록", description = "사용자로부터 선택된 시도, 구군, 타입 코드에 맞는 관광지 목록")
     @GetMapping("/list/search")
-    public ResponseEntity<?> getAttractionBySearch(@Parameter(required = true)SearchAttraction searchAttraction){
+    public ResponseEntity<?> getAttractionBySearch(   @Parameter(description = "시도 코드", required = true) @RequestParam Integer sidoCode,
+                                                      @Parameter(description = "구군 코드", required = true) @RequestParam Integer gugunCode,
+                                                      @Parameter(description = "콘텐츠 타입 ID", required = true) @RequestParam Integer contentTypeId,
+                                                      @Parameter(description = "최대 아이템 개수", required = false) @RequestParam(required = false, defaultValue = "10") Integer maxItems){
         try{
+            SearchAttraction searchAttraction = new SearchAttraction(sidoCode, gugunCode, contentTypeId,maxItems);
             List<Attraction> list = attractionService.getAttractionBySearch(searchAttraction);
             if(list!= null && !list.isEmpty()){
                 HttpHeaders headers = new HttpHeaders();
@@ -76,7 +80,6 @@ public class AttractionController {
         }catch (Exception e){
             return exceptionHandling(e);
         }
-
     }
 
 

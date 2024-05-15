@@ -11,5 +11,4 @@ public class SearchRecommend {
     private double mapxLat;
     private double mapyLon;
     private int range;
-    private int maxItems;
 }
