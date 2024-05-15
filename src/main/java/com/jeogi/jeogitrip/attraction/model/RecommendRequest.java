@@ -1,15 +1,16 @@
 package com.jeogi.jeogitrip.attraction.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
-public class Search {
-    private double mapxLat;
-    private double mapyLon;
+public class RecommendRequest {
+    private int sidoCode;
+    private int gugunCode;
     private int range;
-    private int maxItems;
 }

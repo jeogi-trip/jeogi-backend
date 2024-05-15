@@ -1,13 +1,12 @@
 package com.jeogi.jeogitrip.attraction.model.service;
 
-import com.jeogi.jeogitrip.attraction.model.Attraction;
-import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
-import com.jeogi.jeogitrip.attraction.model.Search;
+import com.jeogi.jeogitrip.attraction.model.*;
 import com.jeogi.jeogitrip.attraction.model.mapper.AttractionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -16,13 +15,33 @@ public class AttractionServiceImpl implements AttractionService{
     private final AttractionMapper attractionMapper;
 
     @Override
-    public List<Attraction> listAttraction() {
-        return attractionMapper.selectAttraction();
+    public List<Map<Integer, String>> listSido() {
+        return attractionMapper.selectSido();
     }
 
     @Override
-    public List<Attraction> listRecommendAttraction(Search search) {
-        return attractionMapper.selectRecommendAttraction(search);
+    public List<Gugun> listGugun(int sidoCode) {
+        return attractionMapper.selectGugun(sidoCode);
+    }
+
+    @Override
+    public List<Attraction> getAttractionBySearch(SearchAttraction searchAttraction) {
+        return attractionMapper.selectAttractionBySearch(searchAttraction);
+    }
+
+    @Override
+    public List<Attraction> listAttractionByKeyword(SearchRequest searchRequest) {
+        return attractionMapper.selectAttractionByKeyword(searchRequest);
+    }
+
+    @Override
+    public List<Attraction> listRecommendAttraction(SearchRecommend searchRecommend) {
+        return attractionMapper.selectRecommendAttraction(searchRecommend);
+    }
+
+    @Override
+    public List<Attraction> listRecommendAttractionBySidoAndGugun(RecommendRequest recommendRequest) {
+        return attractionMapper.selectRecommendAttractionBySidoAndGugun(recommendRequest);
     }
 
     @Override

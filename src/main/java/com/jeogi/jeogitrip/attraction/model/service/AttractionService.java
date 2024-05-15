@@ -1,16 +1,23 @@
 package com.jeogi.jeogitrip.attraction.model.service;
 
 
-import com.jeogi.jeogitrip.attraction.model.Attraction;
-import com.jeogi.jeogitrip.attraction.model.AttractionDescription;
-import com.jeogi.jeogitrip.attraction.model.Search;
+import com.jeogi.jeogitrip.attraction.model.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AttractionService {
-    List<Attraction> listAttraction();
 
-    List<Attraction> listRecommendAttraction(Search search);
+    List<Map<Integer, String>> listSido();
+
+    List<Gugun> listGugun(int sidoCode);
+
+    List<Attraction> getAttractionBySearch(SearchAttraction searchAttraction);
+    List<Attraction> listAttractionByKeyword(SearchRequest searchRequest);
+
+    List<Attraction> listRecommendAttraction(SearchRecommend searchRecommend);
+
+    List<Attraction> listRecommendAttractionBySidoAndGugun(RecommendRequest recommendRequest);
 
     AttractionDescription getAttractionDetail(int contentId);
 }

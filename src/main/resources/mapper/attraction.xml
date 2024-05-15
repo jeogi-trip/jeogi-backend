@@ -3,13 +3,39 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- name space는 Repo의 fully qualified name으로 설정한다. -->
 <mapper namespace="com.jeogi.jeogitrip.attraction.model.mapper.AttractionMapper">
-    <select id="selectAttraction" resultType="Attraction">
-        select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
-        from attraction_info
-        limit 30;
+
+    <select id="selectSido" resultType="Map">
+        select *
+        from sido;
     </select>
 
-    <select id="selectRecommendAttraction" parameterType="Search" resultType="Attraction">
+    <select id="selectGugun" resultType="Gugun">
+        select gugun_code, gugun_name, sido_code
+        from gugun
+        where sido_code = #{sidoCode};
+    </select>
+
+    <select id="selectAttractionBySearch" parameterType="SearchAttraction" resultType="Attraction">
+        select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
+        from attraction_info
+        where sido_code = #{sidoCode} and gugun_code = #{gugunCode} and content_type_id = #{contentTypeId}
+        limit #{maxItems};
+    </select>
+
+    <select id="selectAttractionByKeyword" parameterType="SearchRequest" resultType="Attraction">
+        select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
+        FROM attraction_info
+        <where>
+            <if test="keyword != null">
+                AND title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="contentTypeId != 0">
+                AND content_type_id = #{contentTypeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectRecommendAttraction" parameterType="SearchRecommend" resultType="Attraction">
 
         select content_id, content_type_id, title, addr1, addr2, zipcode,tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
         FROM (
@@ -21,8 +47,23 @@
         ) AS ranked_attractions
         WHERE row_num = 1
         order by content_type_id
+    </select>
 
-
+    <select id="selectRecommendAttractionBySidoAndGugun" parameterType="RecommendRequest" resultType="Attraction">
+        SELECT content_id, content_type_id, title, addr1, addr2, zipcode, tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
+            FROM (
+            SELECT ai.content_id, ai.content_type_id, ai.title, ai.addr1, ai.addr2, ai.zipcode, ai.tel, ai.first_image, ai.first_image2, ai.readcount, ai.sido_code, ai.gugun_code, ai.latitude, ai.longitude, ai.mlevel, ROW_NUMBER() OVER(PARTITION BY ai.content_type_id ORDER BY RAND()) as row_num
+            FROM attraction_info ai
+            JOIN (
+                    SELECT latitude, longitude
+                    FROM city_coordinates
+                    WHERE sido_code = #{sidoCode} AND gugun_code = #{gugunCode}
+                ) cc ON 1 = 1
+            WHERE (6371*acos(cos(radians(cc.latitude))*cos(radians(ai.latitude))*cos(radians(ai.longitude) - radians(cc.longitude))+sin(radians(cc.latitude))*sin(radians(ai.latitude)))) &lt; #{range}
+            AND ai.content_type_id IN (12,14,15,38,39)
+            ) AS ranked_attractions
+        WHERE row_num = 1
+        ORDER BY content_type_id;
     </select>
 
 
