@@ -19,5 +19,7 @@ public interface AttractionMapper {
 
     List<Attraction> selectRecommendAttraction(SearchRecommend searchRecommend);
 
+    List<Attraction> selectRecommendAttractionBySidoAndGugun(RecommendRequest recommendRequest);
+
     AttractionDescription selectAttractionDetail(int contentId);
 }

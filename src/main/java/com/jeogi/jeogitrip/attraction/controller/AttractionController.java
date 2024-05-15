@@ -66,7 +66,7 @@ public class AttractionController {
     public ResponseEntity<?> getAttractionBySearch(   @Parameter(description = "시도 코드", required = true) @RequestParam Integer sidoCode,
                                                       @Parameter(description = "구군 코드", required = true) @RequestParam Integer gugunCode,
                                                       @Parameter(description = "콘텐츠 타입 ID", required = true) @RequestParam Integer contentTypeId,
-                                                      @Parameter(description = "최대 아이템 개수", required = false) @RequestParam(required = false, defaultValue = "10") Integer maxItems){
+                                                      @Parameter(description = "최대 아이템 개수") @RequestParam(required = false, defaultValue = "10") Integer maxItems){
         try{
             SearchAttraction searchAttraction = new SearchAttraction(sidoCode, gugunCode, contentTypeId,maxItems);
             List<Attraction> list = attractionService.getAttractionBySearch(searchAttraction);
@@ -102,13 +102,33 @@ public class AttractionController {
     }
 
     @Operation(summary = "추천 관광지", description = "추천 관광지를 보여준다.")
-    @GetMapping("/recommend")
+    @GetMapping("/test")
     public ResponseEntity<?> listRecommendAttraction(@Parameter(required = true) SearchRecommend searchRecommend){
         try {
             List<Attraction> list = attractionService.listRecommendAttraction(searchRecommend);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
             return ResponseEntity.ok().headers(headers).body(list);
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
+
+    @Operation(summary = "추천 여행목록", description = "시도, 구군, 반경에 따른 추천 관광지 목록")
+    @GetMapping("/recommend")
+    public ResponseEntity<?> getRecommendAttractionBySidoAndGugun(@Parameter(description = "시도 코드", required = true) @RequestParam Integer sidoCode,
+                                                                  @Parameter(description = "구군 코드", required = true) @RequestParam Integer gugunCode,
+                                                                  @Parameter(description = "범위") @RequestParam(required = false, defaultValue = "1") Integer range){
+        try{
+            RecommendRequest recommendRequest = new RecommendRequest(sidoCode,gugunCode,range);
+            List<Attraction> list = attractionService.listRecommendAttractionBySidoAndGugun(recommendRequest);
+            if(list!= null && !list.isEmpty()){
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+                return ResponseEntity.ok().headers(headers).body(list);
+            }else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
         }catch (Exception e){
             return exceptionHandling(e);
         }

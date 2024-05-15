@@ -17,5 +17,7 @@ public interface AttractionService {
 
     List<Attraction> listRecommendAttraction(SearchRecommend searchRecommend);
 
+    List<Attraction> listRecommendAttractionBySidoAndGugun(RecommendRequest recommendRequest);
+
     AttractionDescription getAttractionDetail(int contentId);
 }

@@ -40,6 +40,11 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    public List<Attraction> listRecommendAttractionBySidoAndGugun(RecommendRequest recommendRequest) {
+        return attractionMapper.selectRecommendAttractionBySidoAndGugun(recommendRequest);
+    }
+
+    @Override
     public AttractionDescription getAttractionDetail(int contentId) {
         return attractionMapper.selectAttractionDetail(contentId);
     }
