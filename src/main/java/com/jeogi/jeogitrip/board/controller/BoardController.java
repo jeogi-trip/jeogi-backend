@@ -82,7 +82,7 @@ public class BoardController {
     }
     
     @Operation(summary = "게시글 삭제", description = "게시글을 삭제.")
-    @DeleteMapping("/{isbn}")
+	@DeleteMapping("/{boardNo}")
     public ResponseEntity<?> deleteBook(
     		@Parameter(required = true, description = "삭제할 게시글 번호") @PathVariable("boardNo") int boardNo) {
         try {
@@ -97,7 +97,7 @@ public class BoardController {
     }
     
     @Operation(summary = "게시글 수정", description = "게시글 정보를 수정.")
-    @PutMapping("/{isbn}")
+	@PutMapping("/{boardNo}")
     public ResponseEntity<?> updateBook(
     		@RequestBody(description = "수정할 게시글 정보.", required = true, content = @Content(schema = @Schema(implementation = Board.class))) @org.springframework.web.bind.annotation.RequestBody Board board) {
     	try {
@@ -111,12 +111,22 @@ public class BoardController {
 			return exceptionHandling(e);
 		}
     }
-    
-    
-    
-    
-    
-    
-    
 
+	@Operation(summary = "게시글 상세", description = " <big>게시글 상세 정보</big>를 반환해 줍니다.")
+	@GetMapping("/{boardNo}")
+	public ResponseEntity<?> detailBoard(
+			@Parameter(required = true, description = "boardNo 입력") @PathVariable("boardNo") int boardNo) {
+		try {
+			Board board = boardService.getBoardByNo(boardNo);
+			if (board != null) {
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+				return ResponseEntity.ok().headers(headers).body(board);
+			} else {
+				return ResponseEntity.noContent().build();
+			}
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 }
