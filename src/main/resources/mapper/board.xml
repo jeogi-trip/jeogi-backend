@@ -28,9 +28,9 @@
         from board
         where board_id = #{boardId}
     </insert>
-    <select id="getBookByNo" parameterType="int" resultType="Board">
-        select user_id, title, view_count, create_time, content
-        from book
+    <select id="getBoardByNo" parameterType="int" resultType="Board">
+        select board_id, user_id, title, view_count, create_time, content
+        from board
         where board_id = #{boardId}
     </select>
 
