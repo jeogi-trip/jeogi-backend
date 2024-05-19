@@ -1,14 +1,13 @@
 package com.jeogi.jeogitrip.user.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
+@Builder
 public class User {
     private String userId;
     private String email;
-    private char role;
+    private String role;
 }

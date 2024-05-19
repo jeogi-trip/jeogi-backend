@@ -4,6 +4,18 @@
 <!-- name space는 Repo의 fully qualified name으로 설정한다. -->
 <mapper namespace="com.jeogi.jeogitrip.user.model.mapper.UserMapper">
 
+    <select id="selectEmailByUserId" parameterType="String">
+        select email
+        from user
+        where user_id = #{userId};
+    </select>
+
+    <select id="selectUserByUserId" parameterType="String" resultType="UserGeneral">
+        select user_general_id,user_id, password, auto
+        from user_general
+        where user_id = #{userId};
+    </select>
+
     <select id="selectUser">
         select user_id,email,role
         from user;
@@ -13,6 +25,12 @@
         select user_detail_id,user_id,name,phone,birth
         from user_detail
         where user_id = #{userId}
+    </select>
+
+    <select id="selectUserByEmail" parameterType="String" resultType="User">
+        select user_id, email,role
+        from user
+        where email = #{email};
     </select>
 
     <insert id="insertUser" parameterType="User">
