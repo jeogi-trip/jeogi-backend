@@ -41,3 +41,6 @@ logging:
     com:
     ssafy: debug
   root: info
+
+jwt:
+  secret: ${jwt.secret-key}
