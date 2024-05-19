@@ -28,23 +28,30 @@ public class UserServiceImpl implements  UserService{
         return userMapper.selectUserDetail(userId);
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        return userMapper.selectUserByEmail(email);
+    }
+
     @Transactional
     @Override
     public int joinUser(UserRequest userRequest) {
         try {
-            User user = new User();
-            user.setUserId(userRequest.getUserId());
-            user.setEmail(userRequest.getEmail());
+            User user = User.builder()
+                    .userId(userRequest.getUserId()).email(userRequest.getEmail()).build();
 
-            UserDetail userDetail = new UserDetail();
-            userDetail.setUserId(userRequest.getUserId());
-            userDetail.setName(userRequest.getName());
-            userDetail.setBirth(userRequest.getBirth());
-            userDetail.setPhone(userRequest.getPhone());
-
-            UserGeneral userGeneral = new UserGeneral();
-            userGeneral.setUserId(userRequest.getUserId());
-            userGeneral.setPassword(userRequest.getPassword());
+            UserDetail userDetail = UserDetail
+                    .builder()
+                    .userId(userRequest.getUserId())
+                    .name(userRequest.getName())
+                    .birth(userRequest.getBirth())
+                    .phone(userRequest.getPhone())
+                    .build();
+            UserGeneral userGeneral = UserGeneral
+                    .builder()
+                    .userId(userDetail.getUserId())
+                    .password(userRequest.getPassword())
+                    .build();
 
             int userInserted = userMapper.insertUser(user);
             int userDetailInserted = userMapper.insertUserDetail(userDetail);
@@ -61,19 +68,21 @@ public class UserServiceImpl implements  UserService{
     public int updateUser(UserRequest userRequest) {
 
         try{
-            User user = new User();
-            user.setUserId(userRequest.getUserId());
-            user.setEmail(userRequest.getEmail());
+            User user = User.builder()
+                .userId(userRequest.getUserId()).email(userRequest.getEmail()).build();
 
-            UserDetail userDetail = new UserDetail();
-            userDetail.setUserId(userRequest.getUserId());
-            userDetail.setName(userRequest.getName());
-            userDetail.setBirth(userRequest.getBirth());
-            userDetail.setPhone(userRequest.getPhone());
-
-            UserGeneral userGeneral = new UserGeneral();
-            userGeneral.setUserId(userRequest.getUserId());
-            userGeneral.setPassword(userRequest.getPassword());
+            UserDetail userDetail = UserDetail
+                    .builder()
+                    .userId(userRequest.getUserId())
+                    .name(userRequest.getName())
+                    .birth(userRequest.getBirth())
+                    .phone(userRequest.getPhone())
+                    .build();
+            UserGeneral userGeneral = UserGeneral
+                    .builder()
+                    .userId(userDetail.getUserId())
+                    .password(userRequest.getPassword())
+                    .build();
 
             int userUpdatedCnt = 0;
 
@@ -101,9 +110,9 @@ public class UserServiceImpl implements  UserService{
             userMapper.deleteUserDetail(userId);
             userMapper.deleteUserGeneral(userId);
 
-            User user = new User();
-            user.setUserId(userId);
-            user.setRole('X');
+            User user = User.builder()
+                    .userId(userId)
+                    .role("X").build();
             userMapper.updateUser(user);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 

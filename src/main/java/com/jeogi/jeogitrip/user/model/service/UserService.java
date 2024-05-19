@@ -12,6 +12,7 @@ public interface UserService {
     List<User> listUser();
     UserDetail getUserDetail(String userId);
 
+    User getUserByEmail(String email);
     int joinUser(UserRequest userRequest);
     int updateUser(UserRequest userRequest);
     int removeUser(String userId);
