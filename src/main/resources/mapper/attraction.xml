@@ -43,7 +43,6 @@
         FROM attraction_info
         WHERE (6371*acos(cos(radians(#{mapxLat}))*cos(radians(latitude))*cos(radians(longitude)
         - radians(#{mapyLon}))+sin(radians(#{mapxLat}))*sin(radians(latitude)))) &lt; 1
-        AND content_type_id IN (12,14,15,38,39)
         ) AS ranked_attractions
         WHERE row_num = 1
         order by content_type_id
@@ -60,7 +59,6 @@
                     WHERE sido_code = #{sidoCode} AND gugun_code = #{gugunCode}
                 ) cc ON 1 = 1
             WHERE (6371*acos(cos(radians(cc.latitude))*cos(radians(ai.latitude))*cos(radians(ai.longitude) - radians(cc.longitude))+sin(radians(cc.latitude))*sin(radians(ai.latitude)))) &lt; #{range}
-            AND ai.content_type_id IN (12,14,15,38,39)
             ) AS ranked_attractions
         WHERE row_num = 1
         ORDER BY content_type_id;
